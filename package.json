@@ -9,16 +9,45 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
-      {
-        "command": "php-quick-serve.helloWorld",
-        "title": "Hello World"
-      }
-    ]
-  },
+        {
+            "command": "php-quick-serve.start",
+            "title": "PHP Quick Serve: Start Current Server"
+        },
+        {
+            "command": "php-quick-serve.stopCurrent",
+            "title": "PHP Quick Serve: Stop Current Server"
+        },
+        {
+            "command": "php-quick-serve.stopAll",
+            "title": "PHP Quick Serve: Stop All Servers"
+        },
+        {
+            "command": "php-quick-serve.open",
+            "title": "PHP Quick Serve: Open Current File"
+        },
+        {
+            "command": "php-quick-serve.statusMenu",
+            "title": "PHP Quick Serve",
+            "icon": "$(server)"
+        }
+    ],
+
+    "menus": {
+        "editor/title": [
+            {
+                "command": "php-quick-serve.statusMenu",
+                "group": "navigation",
+                "when": "resourceExtname == .php || resourceExtname == .phtml || resourceExtname == .html || resourceExtname == .htm"
+            }
+        ]
+    }
+},
   "scripts": {
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",

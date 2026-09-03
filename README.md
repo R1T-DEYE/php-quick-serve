@@ -1,71 +1,150 @@
-# php-quick-serve README
 
-This is the README for your extension "php-quick-serve". After writing up a brief description, we recommend including the following sections.
+# PHP Quick Serve
+
+PHP Quick Serve is a lightweight VS Code extension designed to remove the repetitive setup involved in developing small PHP projects.
+
+It automatically starts a PHP development server for the folder containing the active PHP or HTML file, assigns an available localhost port, and opens the file in the browser.
+
+Each folder gets its own persistent PHP server, allowing multiple exercises or projects to stay running at the same time.
+
+## Why I Made This
+
+While working through PHP labs, I found myself repeatedly:
+
+- Starting PHP servers manually with `php -S`
+- Changing directories in the terminal
+- Managing different server roots
+- Reusing ports
+- Moving between multiple task folders
+- Reopening the correct localhost URL
+
+PHP Quick Serve was created to make that workflow effectively automatic.
+
+The goal is simple:
+
+> Open the file and start working.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+- Automatically detects supported PHP and HTML files
+- Automatically starts a PHP development server
+- Uses the active file's folder as the server root
+- Automatically selects an available port starting from `8000`
+- Supports multiple PHP servers running simultaneously
+- Keeps existing servers alive when switching between project folders
+- Automatically opens a browser tab when a new server starts
+- Provides quick server controls from the editor title bar
+- Stops all managed PHP servers when the extension shuts down
+- Requires no manual terminal commands during normal use
 
-For example if there is an image subfolder under your extension project workspace:
+## Supported Files
 
-\!\[feature X\]\(images/feature-x.png\)
+PHP Quick Serve currently activates for:
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+- `.php`
+- `.phtml`
+- `.html`
+- `.htm`
+
+Static assets such as CSS, JavaScript, images, and JSON files can still be served normally by the PHP development server, but they do not independently start new servers.
+
+## How It Works
+
+Suppose the following files are open:
+
+```text
+lab05/
+├── Task 1/
+│   ├── shoppingform.html
+│   └── shoppingsave.php
+│
+├── Task 2/
+│   └── strform.php
+│
+└── Task 3/
+    └── index.php
+````
+
+Opening a supported file from each folder results in:
+
+```text
+Task 1 → http://127.0.0.1:8000
+Task 2 → http://127.0.0.1:8001
+Task 3 → http://127.0.0.1:8002
+```
+
+All three servers remain running simultaneously.
+
+This means their browser tabs can remain open and usable while switching between tasks in VS Code.
+
+## Editor Controls
+
+When editing a supported PHP or HTML file, PHP Quick Serve adds a server control to the top-right of the editor.
+
+The menu provides:
+
+* **Open Current File**
+* **Stop Current Server**
+* **Stop All Servers**
+* **Show Output**
 
 ## Requirements
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+PHP must already be installed and available through the system `PATH`.
 
-## Extension Settings
+You can verify this by running:
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+```bash
+php --version
+```
 
-For example:
+PHP Quick Serve currently uses PHP's built-in development server:
 
-This extension contributes the following settings:
+```bash
+php -S 127.0.0.1:<port> -t <folder>
+```
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+## Development
 
-## Known Issues
+Install dependencies:
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+```bash
+npm install
+```
 
-## Release Notes
+Open the project in VS Code and press:
 
-Users appreciate release notes as you update your extension.
+```text
+F5
+```
 
-### 1.0.0
+This launches an **Extension Development Host** where the extension can be tested.
 
-Initial release of ...
+## Current Design
 
-### 1.0.1
+PHP Quick Serve intentionally keeps browser refreshing manual.
 
-Fixed issue #.
+When source code changes:
 
-### 1.1.0
+1. Save the file
+2. Return to the browser
+3. Refresh manually
 
-Added features X, Y, and Z.
+Live reload may be explored in the future, but the current behaviour is intentionally simple.
 
----
+## Future Ideas
 
-## Following extension guidelines
+Possible future improvements include:
 
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
+* Project-root detection for nested CSS and JavaScript files
+* Configurable starting port
+* Configurable PHP executable path
+* Running-server overview
+* Optional live reload
+* Improved process recovery
+* Persistent server mappings between VS Code sessions
 
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
+## License
 
-## Working with Markdown
+This project is currently intended for personal and educational use.
 
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
